@@ -1,0 +1,173 @@
+## Copyright © 2020, Oracle and/or its affiliates. 
+## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
+
+title: "Automate loading data to a data warehouse using a serverless application"
+stackDescription: "Automate loading data to a data warehouse using a serverless application."
+schemaVersion: 1.1.0
+version: "20190404"
+locale: "en"
+
+variableGroups:
+- title: General Configuration
+  visible: false
+  variables:
+  - tenancy_ocid
+
+- title: Required Configuration
+  visible: true  
+  variables:
+  - compartment_ocid
+  - region
+  - dbpwd-cipher
+  - ocir_namespace
+  - ocir_repo_name
+  - ocir_docker_repository
+  - ocir_user_name
+  - ocir_user_password
+
+- title: Optional Configuration
+  visible: true
+  variables:  
+  - VCN-CIDR
+  - fnsubnet-CIDR
+  - ADW_database_cpu_core_count
+  - ADW_database_data_storage_size_in_tbs
+  - ADW_database_db_name
+  - ADW_database_db_version
+  - ADW_database_display_name
+  - ADW_database_license_model
+  - ADW_database_freeform_tags
+  - ADW_database_defined_tags_value
+    
+variables:
+
+  compartment_ocid:
+    type: oci:identity:compartment:id
+    required: true
+    visibile: true
+    title: "Compartment"
+    description: "Choose compartment where you want to create the solution resources"
+
+  region:
+    type: oci:identity:region:name
+    required: true
+    visibile: true
+    title: "Region"
+    description: "Choose region where you want to deploy the resources defined by this stack."
+
+  dbpwd-cipher:
+    type: password
+    required: true
+    visibile: true
+    title: "ADW Admin Database password"
+    description: "ADW Database password for ADMIN user"
+    minLength: 12
+    maxLength: 30
+    pattern: ^[A-Za-z][A-Za-z0-9_#\$]+$ 
+
+  ocir_namespace:
+    type: string
+    required: true
+    visibile: true
+    title: "OCIR namespace"
+    description: "Oracle Cloud Infrastructure Registry namespace (can be the same as your tenancy name)"
+
+  ocir_repo_name:
+    type: string
+    required: true
+    visibile: true
+    title: "OCIR repository name"
+    description: "Oracle Cloud Infrastructure Registry repository name (for example functions)"
+
+  ocir_docker_repository:
+    type: string
+    required: true
+    visibile: true
+    title: "OCIR Docker Repository URL"
+    description: "Oracle Cloud Infrastructure Registry Docker Repository URL (for example iad.ocir.io)" 
+
+  ocir_user_name:
+    type: string
+    required: true
+    visibile: true
+    title: "OCIR username"
+    description: "Oracle Cloud Infrastructure Registry username (your OCI username)" 
+
+  ocir_user_password:
+    type: password
+    required: true
+    visibile: true
+    title: "OCIR user password"
+    description: "Oracle Cloud Infrastructure Registry user password (your OCI user authtoken)" 
+
+  # Optional Configuration
+  VCN-CIDR:
+    type: string
+    required: false
+    default: "10.0.0.0/16"
+    pattern: "^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]).(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]).(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]).(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\/(3[0-2]|[1-2]?[0-9])$"
+    title: "VCN CIDR"
+    description: "Choose VCN's CIDR block where Fn App will be deployed."
+
+  fnsubnet-CIDR:
+    type: string
+    required: false
+    default: "10.0.2.0/24"
+    pattern: "^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]).(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]).(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]).(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\/(3[0-2]|[1-2]?[0-9])$"
+    title: "Subnet CIDR"
+    description: "Choose Public Subnet's CIDR where Fn App will be deployed."  
+
+  ADW_database_cpu_core_count:
+    type: number
+    required: false
+    minimum: 1
+    maximum: 128
+    multipleOf: 1
+    default: 1
+    description: "ADW Database CPU Core Count"
+
+  ADW_database_data_storage_size_in_tbs:
+    type: number
+    required: false
+    minimum: 1
+    maximum: 128
+    multipleOf: 1
+    default: 1
+    description: "ADW Database Data Storage Size in terabytes"
+
+  ADW_database_db_name:
+    type: string
+    required: false
+    default: "ADWdb1"
+    description: "ADW Database DBNAME"
+
+  ADW_database_db_version:
+    type: enum
+    required: false
+    default: "19c"
+    description: "ADW Database Version"
+    enum:
+      - "19c"
+
+  ADW_database_display_name:
+    type: string
+    required: false
+    default: "ADWDB"
+    description: "ADW Database Display Name"
+
+  ADW_database_license_model:
+    type: enum
+    required: false
+    default: "LICENSE_INCLUDED"
+    description: "ADW Database License Model"
+    enum:
+      - "LICENSE_INCLUDED"
+      - "BRING_YOUR_OWN_LICENSE"
+
+outputs:
+
+  ADW_query_URL_for_JSON_formatted_with_python:
+    title: "ADW Query URL for JSON formatted with Python"
+    displayText: "ADW Query URL for JSON formatted with Python"
+    type: copyableString
+    visible: true
