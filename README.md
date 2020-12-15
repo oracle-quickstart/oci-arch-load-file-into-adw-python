@@ -89,4 +89,4 @@ When you no longer need the deployment, you can run this command to destroy the 
 
 ## Architecture Diagram
 
-![](./images/oci-arch-load-file-into-adw-python)
+![](./images/oci-arch-load-file-into-adw-python.png)
