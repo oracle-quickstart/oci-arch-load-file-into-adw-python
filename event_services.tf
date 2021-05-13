@@ -1,3 +1,6 @@
+## Copyright (c) 2020, Oracle and/or its affiliates.
+## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
+
 resource "oci_events_rule" "BucketCreateObjectTrigger" {
     actions {
         actions {
@@ -12,5 +15,6 @@ resource "oci_events_rule" "BucketCreateObjectTrigger" {
     condition = "{ \"eventType\": \"com.oraclecloud.objectstorage.createobject\" }"
     display_name = "BucketCreateObjectTrigger"
     is_enabled = true
+    defined_tags   = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 

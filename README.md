@@ -18,7 +18,7 @@ If you don't have the required permissions and quota, contact your tenancy admin
 
 ## Deploy Using Oracle Resource Manager
 
-1. Click [![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://console.us-phoenix-1.oraclecloud.com/resourcemanager/stacks/create?region=home&zipUrl=https://github.com/oracle-quickstart/oci-arch-load-file-into-adw-python/raw/master/resource-manager/oci-arch-load-file-into-adw-python.zip)
+1. Click [![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://console.us-phoenix-1.oraclecloud.com/resourcemanager/stacks/create?region=home&zipUrl=https://github.com/oracle-quickstart/oci-arch-load-file-into-adw-python/releases/latest/download/oci-arch-load-file-into-adw-python-stack-latest.zip)
 
     If you aren't already signed in, when prompted, enter the tenancy and user credentials.
 
@@ -86,10 +86,7 @@ compartment_ocid = "<compartment_ocid>"
 dbpwd-cipher = "<ADW_password>"
 
 # OCIR
-ocir_repo_name         = "<ocir_repo_name>"
 ocir_user_name         = "<ocir_user_name>"
-ocir_namespace         = "<ocir_namespace>"
-ocir_docker_repository = "<ocir_docker_repository>"
 ocir_user_password     = "<ocir_user_password>"
 ````
 

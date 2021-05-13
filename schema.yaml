@@ -12,24 +12,32 @@ variableGroups:
   visible: false
   variables:
   - tenancy_ocid
+  - region
+  - release
+  - ocir_repo_name
 
 - title: Required Configuration
   visible: true  
   variables:
   - compartment_ocid
-  - region
   - dbpwd-cipher
-  - ocir_namespace
-  - ocir_repo_name
-  - ocir_docker_repository
   - ocir_user_name
   - ocir_user_password
+  - show_advanced 
 
-- title: Optional Configuration
-  visible: true
-  variables:  
+- title: Networking Optional Configuration
+  visible: 
+      and:
+        - show_advanced
+  variables:      
   - VCN-CIDR
   - fnsubnet-CIDR
+
+- title: Autonomous DB Optional Configuration
+  visible: 
+      and:
+        - show_advanced
+  variables:      
   - ADW_database_cpu_core_count
   - ADW_database_data_storage_size_in_tbs
   - ADW_database_db_name
@@ -40,6 +48,13 @@ variableGroups:
   - ADW_database_defined_tags_value
     
 variables:
+  
+  show_advanced:
+    type: boolean
+    title: "Show advanced options?"
+    description: "Shows advanced options."
+    visible: true
+    default: false
 
   compartment_ocid:
     type: oci:identity:compartment:id
@@ -64,27 +79,6 @@ variables:
     minLength: 12
     maxLength: 30
     pattern: ^[A-Za-z][A-Za-z0-9_#\$]+$ 
-
-  ocir_namespace:
-    type: string
-    required: true
-    visibile: true
-    title: "OCIR namespace"
-    description: "Oracle Cloud Infrastructure Registry namespace (can be the same as your tenancy name)"
-
-  ocir_repo_name:
-    type: string
-    required: true
-    visibile: true
-    title: "OCIR repository name"
-    description: "Oracle Cloud Infrastructure Registry repository name (for example functions)"
-
-  ocir_docker_repository:
-    type: string
-    required: true
-    visibile: true
-    title: "OCIR Docker Repository URL"
-    description: "Oracle Cloud Infrastructure Registry Docker Repository URL (for example iad.ocir.io)" 
 
   ocir_user_name:
     type: string
@@ -124,7 +118,8 @@ variables:
     maximum: 128
     multipleOf: 1
     default: 1
-    description: "ADW Database CPU Core Count"
+    title: "ADW Database CPU Core Count"
+    description: "Choose ADW Database CPU Core Count"
 
   ADW_database_data_storage_size_in_tbs:
     type: number
@@ -133,19 +128,22 @@ variables:
     maximum: 128
     multipleOf: 1
     default: 1
-    description: "ADW Database Data Storage Size in terabytes"
+    title: "ADW Database Data Storage Size in terabytes"
+    description: "Choose ADW Database Data Storage Size in terabytes"
 
   ADW_database_db_name:
     type: string
     required: false
     default: "ADWdb1"
-    description: "ADW Database DBNAME"
+    title: "ADW Database DBNAME"
+    description: "Choose ADW Database DBNAME"
 
   ADW_database_db_version:
     type: enum
     required: false
     default: "19c"
-    description: "ADW Database Version"
+    title: "ADW Database Version"
+    description: "Choose ADW Database Version"
     enum:
       - "19c"
 
@@ -153,13 +151,15 @@ variables:
     type: string
     required: false
     default: "ADWDB"
-    description: "ADW Database Display Name"
+    title: "ADW Database Display Name"
+    description: "Choose ADW Database Display Name"
 
   ADW_database_license_model:
     type: enum
     required: false
     default: "LICENSE_INCLUDED"
-    description: "ADW Database License Model"
+    title: "ADW Database License Model"
+    description: "Choose ADW Database License Model"
     enum:
       - "LICENSE_INCLUDED"
       - "BRING_YOUR_OWN_LICENSE"

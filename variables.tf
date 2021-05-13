@@ -7,6 +7,12 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "compartment_ocid" {}
 variable "region" {}
+
+variable "release" {
+  description = "Reference Architecture Release (OCI Architecture Center)"
+  default     = "1.0"
+}
+
 variable "dbpwd-cipher" {}
 
 variable "db-schema" {
@@ -67,16 +73,8 @@ variable "ADW_database_license_model" {
   default = "LICENSE_INCLUDED"
 }
 
-variable "ocir_namespace" {
-  default = ""
-}
-
 variable "ocir_repo_name" {
-  default = ""
-}
-
-variable "ocir_docker_repository" {
-  default = ""
+  default = "functions"
 }
 
 variable "ocir_user_name" {
@@ -85,4 +83,12 @@ variable "ocir_user_name" {
 
 variable "ocir_user_password" {
   default = ""
+}
+
+
+# OCIR repo name & namespace
+
+locals {
+  ocir_docker_repository = join("", [lower(lookup(data.oci_identity_regions.oci_regions.regions[0], "key" )), ".ocir.io"])
+  ocir_namespace = lookup(data.oci_identity_tenancy.oci_tenancy, "name" )
 }

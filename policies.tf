@@ -4,45 +4,77 @@
 # Functions Policies
 
 resource "oci_identity_policy" "FunctionsServiceReposAccessPolicy" {
-  name = "FunctionsServiceReposAccessPolicy"
-  description = "FunctionsServiceReposAccessPolicy"
+  provider = oci.homeregion
+  name = "FunctionsServiceReposAccessPolicy-${random_id.tag.hex}"
+  description = "FunctionsServiceReposAccessPolicy-${random_id.tag.hex}"
   compartment_id = var.tenancy_ocid
   statements = ["Allow service FaaS to read repos in tenancy"]
+  provisioner "local-exec" {
+       command = "sleep 5"
+  }
 }
 
 resource "oci_identity_policy" "FunctionsDevelopersManageAccessPolicy" {
-  name = "FunctionsDevelopersManageAccessPolicy"
-  description = "FunctionsDevelopersManageAccessPolicy"
+  provider = oci.homeregion
+  depends_on = [oci_identity_policy.FunctionsServiceReposAccessPolicy]
+  name = "FunctionsDevelopersManageAccessPolicy-${random_id.tag.hex}"
+  description = "FunctionsDevelopersManageAccessPolicy-${random_id.tag.hex}"
   compartment_id = var.compartment_ocid
   statements = ["Allow group Administrators to manage functions-family in compartment id ${var.compartment_ocid}",
                 "Allow group Administrators to read metrics in compartment id ${var.compartment_ocid}"]
+  provisioner "local-exec" {
+       command = "sleep 5"
+  }
 }
 
 resource "oci_identity_policy" "FunctionsDevelopersManageNetworkAccessPolicy" {
-  name = "FunctionsDevelopersManageNetworkAccessPolicy"
-  description = "FunctionsDevelopersManageNetworkAccessPolicy"
+  provider = oci.homeregion
+  depends_on = [oci_identity_policy.FunctionsDevelopersManageAccessPolicy]
+  name = "FunctionsDevelopersManageNetworkAccessPolicy-${random_id.tag.hex}"
+  description = "FunctionsDevelopersManageNetworkAccessPolicy-${random_id.tag.hex}"
   compartment_id = var.compartment_ocid
   statements = ["Allow group Administrators to use virtual-network-family in compartment id ${var.compartment_ocid}"]
+  
+  provisioner "local-exec" {
+       command = "sleep 5"
+  }
 }
 
 resource "oci_identity_policy" "FunctionsServiceNetworkAccessPolicy" {
-  name = "FunctionsServiceNetworkAccessPolicy"
-  description = "FunctionsServiceNetworkAccessPolicy"
+  provider = oci.homeregion
+  depends_on = [oci_identity_policy.FunctionsDevelopersManageNetworkAccessPolicy]
+  name = "FunctionsServiceNetworkAccessPolicy-${random_id.tag.hex}"
+  description = "FunctionsServiceNetworkAccessPolicy-${random_id.tag.hex}"
   compartment_id = var.tenancy_ocid
   statements = ["Allow service FaaS to use virtual-network-family in compartment id ${var.compartment_ocid}"]
+  
+  provisioner "local-exec" {
+       command = "sleep 5"
+  }
 }
 
 resource "oci_identity_dynamic_group" "FunctionsServiceDynamicGroup" {
-    name = "FunctionsServiceDynamicGroup"
-    description = "FunctionsServiceDynamicGroup"
-    compartment_id = var.tenancy_ocid
-    matching_rule = "ALL {resource.type = 'fnfunc', resource.compartment.id = '${var.compartment_ocid}'}"
+  provider = oci.homeregion
+  depends_on = [oci_identity_policy.FunctionsServiceNetworkAccessPolicy]
+  name = "FunctionsServiceDynamicGroup-${random_id.tag.hex}"
+  description = "FunctionsServiceDynamicGroup-${random_id.tag.hex}"
+  compartment_id = var.tenancy_ocid
+  matching_rule = "ALL {resource.type = 'fnfunc', resource.compartment.id = '${var.compartment_ocid}'}"
+  
+  provisioner "local-exec" {
+       command = "sleep 5"
+  }
 }
 
 resource "oci_identity_policy" "FunctionsServiceDynamicGroupPolicy" {
+  provider = oci.homeregion
   depends_on = [oci_identity_dynamic_group.FunctionsServiceDynamicGroup]
-  name = "FunctionsServiceDynamicGroupPolicy"
-  description = "FunctionsServiceDynamicGroupPolicy"
+  name = "FunctionsServiceDynamicGroupPolicy-${random_id.tag.hex}"
+  description = "FunctionsServiceDynamicGroupPolicy-${random_id.tag.hex}"
   compartment_id = var.compartment_ocid
   statements = ["allow dynamic-group ${oci_identity_dynamic_group.FunctionsServiceDynamicGroup.name} to manage all-resources in compartment id ${var.compartment_ocid}"]
+  
+  provisioner "local-exec" {
+       command = "sleep 5"
+  }
 }

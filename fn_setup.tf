@@ -11,7 +11,7 @@ resource "null_resource" "Login2OCIR" {
                 oci_identity_policy.FunctionsServiceDynamicGroupPolicy]
 
   provisioner "local-exec" {
-    command = "echo '${var.ocir_user_password}' |  docker login ${var.ocir_docker_repository} --username ${var.ocir_namespace}/${var.ocir_user_name} --password-stdin"
+    command = "echo '${var.ocir_user_password}' |  docker login ${local.ocir_docker_repository} --username ${local.ocir_namespace}/${var.ocir_user_name} --password-stdin"
   }
 }
 
@@ -29,12 +29,12 @@ resource "null_resource" "LoadFileIntoAdwFnPush2OCIR" {
   }
 
   provisioner "local-exec" {
-    command = "image=$(docker images | grep loadfileintoadw | awk -F ' ' '{print $3}') ; docker tag $image ${var.ocir_docker_repository}/${var.ocir_namespace}/${var.ocir_repo_name}/loadfileintoadw:0.0.1"
+    command = "image=$(docker images | grep loadfileintoadw | awk -F ' ' '{print $3}') ; docker tag $image ${local.ocir_docker_repository}/${local.ocir_namespace}/${var.ocir_repo_name}/loadfileintoadw:0.0.1"
     working_dir = "functions/LoadFileIntoAdw"
   }
 
   provisioner "local-exec" {
-    command = "docker push ${var.ocir_docker_repository}/${var.ocir_namespace}/${var.ocir_repo_name}/loadfileintoadw:0.0.1"
+    command = "docker push ${local.ocir_docker_repository}/${local.ocir_namespace}/${var.ocir_repo_name}/loadfileintoadw:0.0.1"
     working_dir = "functions/LoadFileIntoAdw"
   }
 

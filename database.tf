@@ -11,7 +11,8 @@ resource "oci_database_autonomous_database" "ADWdatabase" {
   db_version               = var.ADW_database_db_version
   display_name             = var.ADW_database_display_name
   freeform_tags            = var.ADW_database_freeform_tags
-  license_model            = var.ADW_database_license_model     
+  license_model            = var.ADW_database_license_model  
+  defined_tags   = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release } 
 }
 
 resource "null_resource" "soda_update" {
