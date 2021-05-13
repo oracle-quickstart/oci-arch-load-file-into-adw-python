@@ -97,6 +97,48 @@ Run the following commands:
     terraform plan
     terraform apply
 
+### Test the stack 
+
+You can test the stack by uploading CSV files into input-bucket bucket (files can be found in csv_files subdirectory of this repo). If event emission will be successful, the function should be executed and all CVS files should be analyzed and moved to the processed-bucket bucket. Ultimate outcome should be also visible in the ADW instance. Below you can find example outputs from the automation in a form of the command to be executed in the bash shell. This command will query ADW instance and database table date will be printed out:
+
+```
+Outputs:
+
+ADW_query_URL_for_JSON_formatted_with_python = curl -X POST -u 'ADMIN:BEstrO0ng_#11' -H "Content-Type: application/json" --data '{}' https://BFGORDHAP4HZNLE-ADWDB.adb.us-ashburn-1.oraclecloudapps.com/ords/admin/soda/latest/regionsnumbers?action=query | python -m json.tool 
+
+$ curl -X POST -u 'ADMIN:BEstrO0ng_#11' -H "Content-Type: application/json" --data '{}' https://BFGORDHAP4HZNLE-ADWDB.adb.us-ashburn-1.oraclecloudapps.com/ords/admin/soda/latest/regionsnumbers?action=query | python -m json.tool
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  1682    0  1680  100     2   1044      1  0:00:02  0:00:01  0:00:01  1045
+{
+    "count": 4,
+    "hasMore": false,
+    "items": [
+        {
+            "created": "2021-05-13T15:32:12.377319000Z",
+            "etag": "1DB1E870628E4890BCB02992C01E5F8C",
+            "id": "A55A0BC8565745829880D9C1B5DBE6A4",
+            "lastModified": "2021-05-13T15:32:12.377319000Z",
+            "links": [
+                {
+                    "href": "https://bfgordhap4hznle-adwdb.adb.us-ashburn-1.oraclecloudapps.com:443/ords/admin/soda/latest/regionsnumbers/A55A0BC8565745829880D9C1B5DBE6A4",
+                    "rel": "self"
+                }
+            ],
+            "value": {
+                "col1": "1",
+                "col2": "2",
+                "col3": "3",
+                "region": "AMER"
+            }
+        },
+        {
+            "created": "2021-05-13T15:32:21.636972000Z",
+            "etag": "49915FAFE75041A890BC1B79A0674A16",
+            "id": "D18048C5D68F44E6A9008113D71
+(...)
+````
+
 ### Destroy the Deployment
 When you no longer need the deployment, you can run this command to destroy the resources:
 

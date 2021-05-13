@@ -24,11 +24,11 @@ variable "db-user" {
 }
 
 variable "input-bucket" {
-  default = "input-bucket2"
+  default = "input-bucket"
 }
 
 variable "processed-bucket" {
-  default = "processed-bucket2"
+  default = "processed-bucket"
 }
 
 variable "VCN-CIDR" {
