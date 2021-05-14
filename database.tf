@@ -12,7 +12,11 @@ resource "oci_database_autonomous_database" "ADWdatabase" {
   display_name             = var.ADW_database_display_name
   freeform_tags            = var.ADW_database_freeform_tags
   license_model            = var.ADW_database_license_model  
-  defined_tags   = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release } 
+  defined_tags             = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release } 
+  
+  provisioner "local-exec" {
+    command = "sleep 120"
+  }
 }
 
 resource "null_resource" "soda_update" {
