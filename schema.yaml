@@ -15,6 +15,8 @@ variableGroups:
   - region
   - release
   - ocir_repo_name
+  - ADW_database_db_name
+  - ADW_database_display_name
 
 - title: Required Configuration
   visible: true  
@@ -48,9 +50,7 @@ variableGroups:
   variables:      
   - ADW_database_cpu_core_count
   - ADW_database_data_storage_size_in_tbs
-  - ADW_database_db_name
   - ADW_database_db_version
-  - ADW_database_display_name
   - ADW_database_license_model
   - ADW_database_freeform_tags
   - ADW_database_defined_tags_value
@@ -142,7 +142,7 @@ variables:
   ADW_database_db_name:
     type: string
     required: false
-    default: "ADWdb1"
+    default: "ADWDB"
     title: "ADW Database DBNAME"
     description: "Choose ADW Database DBNAME"
 

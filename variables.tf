@@ -48,7 +48,7 @@ variable "ADW_database_data_storage_size_in_tbs" {
 }
 
 variable "ADW_database_db_name" {
-  default = "adwdb"
+  default = "ADBDB"
 }
 
 variable "ADW_database_db_version" {
@@ -60,7 +60,7 @@ variable "ADW_database_defined_tags_value" {
 }
 
 variable "ADW_database_display_name" {
-  default = "ADW"
+  default = "ADWDB"
 }
 
 variable "ADW_database_freeform_tags" {
