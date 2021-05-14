@@ -4,6 +4,8 @@
 resource "null_resource" "Login2OCIR" {
   depends_on = [oci_functions_application.LoadFileIntoAdwFnApp, 
                 oci_database_autonomous_database.ADWdatabase,
+                oci_objectstorage_bucket.input-bucket,
+                oci_objectstorage_bucket.processed-bucket,
                 null_resource.soda_update,
                 oci_identity_policy.FunctionsServiceReposAccessPolicy,
                 oci_identity_policy.FunctionsServiceNetworkAccessPolicy,

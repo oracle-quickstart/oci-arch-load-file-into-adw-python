@@ -7,13 +7,13 @@ data "oci_objectstorage_namespace" "bucket_namespace" {
 
 resource "oci_objectstorage_bucket" "input-bucket" {
     compartment_id        = var.compartment_ocid
-    name                  = var.input-bucket
+    name                  = "${var.input-bucket}-${random_id.tag.hex}"
     namespace             = data.oci_objectstorage_namespace.bucket_namespace.namespace
     object_events_enabled = true
 }
 
 resource "oci_objectstorage_bucket" "processed-bucket" {
     compartment_id = var.compartment_ocid
-    name           = var.processed-bucket
+    name           = "${var.processed-bucket}-${random_id.tag.hex}"
     namespace      = data.oci_objectstorage_namespace.bucket_namespace.namespace
 }

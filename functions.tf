@@ -19,8 +19,8 @@ resource "oci_functions_function" "LoadFileIntoAdwFn" {
          "DB_SCHEMA": "${var.db-schema}",
          "DB_USER": "${var.db-user}",
          "DBPWD_CIPHER": "${var.dbpwd-cipher}",
-         "INPUT_BUCKET": "${var.input-bucket}",
-         "PROCESSED_BUCKET": "${var.processed-bucket}"
+         "INPUT_BUCKET": "${var.input-bucket}-${random_id.tag.hex}",
+         "PROCESSED_BUCKET": "${var.processed-bucket}-${random_id.tag.hex}"
     }
     defined_tags   = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
