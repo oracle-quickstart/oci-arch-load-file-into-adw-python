@@ -25,6 +25,14 @@ variableGroups:
   - ocir_user_password
   - show_advanced 
 
+- title: OSS Bucket Optional Configuration
+  visible: 
+      and:
+        - show_advanced
+  variables:      
+  - input-bucket
+  - processed-bucket
+
 - title: Networking Optional Configuration
   visible: 
       and:
@@ -163,6 +171,21 @@ variables:
     enum:
       - "LICENSE_INCLUDED"
       - "BRING_YOUR_OWN_LICENSE"
+
+  input-bucket:
+    type: string
+    required: false
+    default: "input-bucket"
+    title: "Input Bucket Name"
+    description: "Choose Bucket Name for InputFiles"
+  
+  processed-bucket:
+    type: string
+    required: false
+    default: "processed-bucket"
+    title: "Processed Bucket Name "
+    description: "Choose Bucket Name for ProcessedFiles"
+
 
 outputs:
 
