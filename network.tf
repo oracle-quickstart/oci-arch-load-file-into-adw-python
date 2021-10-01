@@ -1,4 +1,4 @@
-## Copyright (c) 2020, Oracle and/or its affiliates.
+## Copyright (c) 2021, Oracle and/or its affiliates.
 ## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
 
 resource "oci_core_virtual_network" "vcn" {
@@ -9,21 +9,21 @@ resource "oci_core_virtual_network" "vcn" {
 }
 
 resource "oci_core_internet_gateway" "igw" {
-    compartment_id = var.compartment_ocid
-    display_name   = "igw"
-    vcn_id         = oci_core_virtual_network.vcn.id
+  compartment_id = var.compartment_ocid
+  display_name   = "igw"
+  vcn_id         = oci_core_virtual_network.vcn.id
 }
 
 
 resource "oci_core_route_table" "rt_via_igw" {
-    compartment_id = var.compartment_ocid
-    vcn_id         = oci_core_virtual_network.vcn.id
-    display_name   = "rt_via_igw"
-    route_rules {
-        destination = "0.0.0.0/0"
-        destination_type  = "CIDR_BLOCK"
-        network_entity_id = oci_core_internet_gateway.igw.id
-    }
+  compartment_id = var.compartment_ocid
+  vcn_id         = oci_core_virtual_network.vcn.id
+  display_name   = "rt_via_igw"
+  route_rules {
+    destination       = "0.0.0.0/0"
+    destination_type  = "CIDR_BLOCK"
+    network_entity_id = oci_core_internet_gateway.igw.id
+  }
 }
 
 resource "oci_core_dhcp_options" "dhcpoptions1" {
@@ -33,14 +33,14 @@ resource "oci_core_dhcp_options" "dhcpoptions1" {
 
   // required
   options {
-    type = "DomainNameServer"
+    type        = "DomainNameServer"
     server_type = "VcnLocalPlusInternet"
   }
 
   // optional
   options {
-    type = "SearchDomain"
-    search_domain_names = [ "example.com" ]
+    type                = "SearchDomain"
+    search_domain_names = ["example.com"]
   }
 }
 

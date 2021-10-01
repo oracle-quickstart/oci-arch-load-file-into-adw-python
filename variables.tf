@@ -1,4 +1,4 @@
-## Copyright (c) 2020, Oracle and/or its affiliates.
+## Copyright (c) 2021, Oracle and/or its affiliates.
 ## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
 
 variable "tenancy_ocid" {}
@@ -10,17 +10,17 @@ variable "region" {}
 
 variable "release" {
   description = "Reference Architecture Release (OCI Architecture Center)"
-  default     = "1.0"
+  default     = "1.0.1"
 }
 
 variable "dbpwd-cipher" {}
 
 variable "db-schema" {
- default = "admin"
+  default = "admin"
 }
 
 variable "db-user" {
- default = "admin"
+  default = "admin"
 }
 
 variable "input-bucket" {
@@ -48,7 +48,7 @@ variable "ADW_database_data_storage_size_in_tbs" {
 }
 
 variable "ADW_database_db_name" {
-  default = "ADBDB"
+  default = "ADBDB1"
 }
 
 variable "ADW_database_db_version" {
@@ -60,7 +60,7 @@ variable "ADW_database_defined_tags_value" {
 }
 
 variable "ADW_database_display_name" {
-  default = "ADWDB"
+  default = "ADWDB1"
 }
 
 variable "ADW_database_freeform_tags" {
@@ -89,6 +89,8 @@ variable "ocir_user_password" {
 # OCIR repo name & namespace
 
 locals {
-  ocir_docker_repository = join("", [lower(lookup(data.oci_identity_regions.oci_regions.regions[0], "key" )), ".ocir.io"])
-  ocir_namespace = lookup(data.oci_identity_tenancy.oci_tenancy, "name" )
+  ocir_docker_repository = join("", [lower(lookup(data.oci_identity_regions.oci_regions.regions[0], "key")), ".ocir.io"])
+  #  ocir_namespace = lookup(data.oci_identity_tenancy.oci_tenancy, "name" )
+  ocir_namespace = lookup(data.oci_objectstorage_namespace.test_namespace, "namespace")
 }
+
