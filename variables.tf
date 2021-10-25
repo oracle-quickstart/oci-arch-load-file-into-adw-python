@@ -10,7 +10,7 @@ variable "region" {}
 
 variable "release" {
   description = "Reference Architecture Release (OCI Architecture Center)"
-  default     = "1.0.1"
+  default     = "1.0.2"
 }
 
 variable "dbpwd-cipher" {}
@@ -48,7 +48,7 @@ variable "ADW_database_data_storage_size_in_tbs" {
 }
 
 variable "ADW_database_db_name" {
-  default = "ADBDB1"
+  default = "ADWDB1"
 }
 
 variable "ADW_database_db_version" {
