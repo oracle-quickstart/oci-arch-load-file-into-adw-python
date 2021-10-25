@@ -3,7 +3,8 @@
 
 resource "null_resource" "Login2OCIR" {
   depends_on = [oci_functions_application.LoadFileIntoAdwFnApp,
-    oci_database_autonomous_database.ADWdatabase,
+    #    oci_database_autonomous_database.ADWdatabase,
+    module.oci-adb.adb_database,
     oci_objectstorage_bucket.input-bucket,
     oci_objectstorage_bucket.processed-bucket,
     null_resource.soda_update,
@@ -18,7 +19,9 @@ resource "null_resource" "Login2OCIR" {
 }
 
 resource "null_resource" "LoadFileIntoAdwFnPush2OCIR" {
-  depends_on = [null_resource.Login2OCIR, oci_functions_application.LoadFileIntoAdwFnApp, oci_database_autonomous_database.ADWdatabase]
+  depends_on = [null_resource.Login2OCIR, oci_functions_application.LoadFileIntoAdwFnApp,
+    #oci_database_autonomous_database.ADWdatabase
+  module.oci-adb.adb_database]
 
   provisioner "local-exec" {
     command     = "image=$(docker images | grep loadfileintoadw | awk -F ' ' '{print $3}') ; docker rmi -f $image &> /dev/null ; echo $image"
